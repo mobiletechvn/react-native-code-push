@@ -22,7 +22,11 @@ public class FileUtils {
             destDir.mkdir();
         }
 
-        for (File sourceFile : sourceDir.listFiles()) {
+        File[] files = sourceDir.listFiles();
+        if (files == null)
+          return;
+
+        for (File sourceFile : files) {
             if (sourceFile.isDirectory()) {
                 copyDirectoryContents(
                         CodePushUtils.appendPathComponent(sourceDirectoryPath, sourceFile.getName()),
@@ -72,6 +76,8 @@ public class FileUtils {
     public static void deleteFileOrFolderSilently(File file) {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
+            if (files == null)
+                    return;
             for (File fileEntry : files) {
                 if (fileEntry.isDirectory()) {
                     deleteFileOrFolderSilently(fileEntry);
